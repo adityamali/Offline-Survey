@@ -4,7 +4,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 contextBridge.exposeInMainWorld('electron', {
   sendFormData: (data) => ipcRenderer.send('save-form-data', data),
   onFormSaved: (callback) => ipcRenderer.on('form-saved', callback),
-  getFormData: () => ipcRenderer.invoke('get-form-data'),
+  getFormData: () => ipcRenderer.invoke('fetch-pending-data'),
 });
 
 
