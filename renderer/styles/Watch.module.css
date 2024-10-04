@@ -1,0 +1,52 @@
+.container {
+    width: 800px;
+    max-width: 96vw;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .heading {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .json {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+
+  .error {
+    font-size: 1.1rem;
+    color: #d9534f;
+    text-align: center;
+  }
+
+  .back {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #333;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 0.7rem;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+  }
+
+  .back:hover {
+    color: #0056b3;
+  }

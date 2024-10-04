@@ -1,0 +1,60 @@
+:root {
+    /* Color Variables */
+    --light: #ffffff;
+    --dark: #000000;
+    --dark-light: #1e1e1e;
+    --primary: #16095d;
+    --primary-light: #aea0ff;
+    --primary-dark: #412cb9;
+    --primary-dark2: #150d44;
+    --warning: #ff3b3b;
+    --success: #138630;
+    --success-hover: #106b26;
+    --success-active: #0d571f;
+
+    /* Size Variables */
+    --size-xs: 0.5rem;
+    --size-1: 1rem;
+    --size-2: 1.25rem;
+    --size-3: 1.5rem;
+    --size-l: 2rem;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* height: 100%; */
+}
+
+::-webkit-scrollbar {
+    width: 5px;  /* Adjust width as needed */
+    height: 5px;
+    background: transparent;  /* Transparent background */
+    margin: 0 2px;
+  }
+  
+  /* Black scroll button (thumb) */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);  /* Black scroll button */
+    border-radius: 10px;       /* Rounded button for style */
+  }
+  
+  /* Optional: Add hover effect for the scroll button */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.7);  /* Slightly lighter on hover */
+  }
+  
+* {
+  scrollbar-width: 5px;
+  /* height: 100%; */
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f6f6f7;
+    line-height: 1.5;
+    height: 100%;
+}
