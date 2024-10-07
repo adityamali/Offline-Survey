@@ -19,22 +19,15 @@ const MultiPageForm = ({ language }) => {
     setQuestions(language === 'English' ? englishq : arabicq);
   }, [language, multiselectRandomOpt]);
 
-  // useEffect(() => {
-  //   if (selectedOptions.length > 0) {
-  //     const randomIndex = Math.floor(Math.random() * selectedOptions.length);
-  //     const randomOptionId = selectedOptions[randomIndex];
-  //     const options = options || [];
-  //     const option = questions[currentQuestion]?.options.find(opt => opt.id === randomOptionId);
-  //     if (option) {
-  //       setMultiselectRandomOpt(option.answer);
-  //     }
-  //   }
-  // }, [selectedOptions, questions, currentQuestion]);
+  const getTruncatedKey = (question) => {
+    return question ? question.slice(0, 63) : '';
+  };
 
   const handleAnswerSelection = (selectedAnswer, nextQuestion) => {
+    const questionKey = getTruncatedKey(englishq[currentQuestion].question);
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [currentQuestion]: selectedAnswer,
+      [questionKey]: selectedAnswer,
     }));
 
     if (nextQuestion !== undefined) {
@@ -49,17 +42,19 @@ const MultiPageForm = ({ language }) => {
   };
 
   const handleInputChange = (e) => {
+    const questionKey = getTruncatedKey(englishq[currentQuestion].question);
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [currentQuestion]: e.target.value,
+      [questionKey]: e.target.value,
     }));
   };
 
   const handleMatrixInputChange = (rowIndex, columnValue) => {
+    const questionKey = getTruncatedKey(englishq[currentQuestion].question);
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [currentQuestion]: {
-        ...prevAnswers[currentQuestion],
+      [questionKey]: {
+        ...prevAnswers[questionKey],
         [rowIndex]: columnValue,
       },
     }));
@@ -96,16 +91,46 @@ const MultiPageForm = ({ language }) => {
     console.log("Selected Options:", selectedOptions);
   };
 
+  const [lowestRatedTour, setLowestRatedTour] = useState(null);
+
+  useEffect(() => {
+    fetchLowestRatedTour();
+  }, []);
+  
+  const fetchLowestRatedTour = async () => {
+    try {
+      const data = await window.electron.getLowestRatedTour();
+      if (data) {
+        setLowestRatedTour(data);
+      }
+      console.log("Lowest Rated Tour:", data);
+    } catch (err) {
+      console.error('Error fetching lowest rating data:', err);
+      setError('Failed to retrieve lowest rating data.');
+    }
+  };
+
   const handleMultiSelectSubmit = () => {
+    const questionKey = getTruncatedKey(englishq[currentQuestion].question);
     if (selectedOptions.length > 0) {
         const randomIndex = Math.floor(Math.random() * selectedOptions.length);
         const randomOptionId = selectedOptions[randomIndex];
         const option = questions[currentQuestion].options.find(opt => opt.id === randomOptionId);
-        
-        if (option && option.nextQuestion) {
+        console.log("Random Option Selected:", randomOptionId);
+
+        fetchLowestRatedTour();
+        console.log("Lowest Rated Tour:", lowestRatedTour.tour_number);
+
+        if (option && option.nextQuestion && lowestRatedTour) {
+            console.log("Lowest Rated Tour:", lowestRatedTour.tour_number);
             const nextQuestion = option.nextQuestion;
             console.log("Random Option Selected:", randomOptionId);
-            setMultiselectRandomOpt(option.answer); // Set the random option in the state
+            if (selectedOptions.includes(parseInt(lowestRatedTour.tour_number))) {
+              let tourString = 'Heritage Tour ' + lowestRatedTour.tour_number;
+              setMultiselectRandomOpt(tourString); // Set the random option in the state
+            } else {
+              setMultiselectRandomOpt(option.answer); // Set the random option in the state
+            }
             setCurrentQuestion(nextQuestion);
             console.log("Next Question:", nextQuestion);
         } else {
@@ -130,7 +155,7 @@ const MultiPageForm = ({ language }) => {
             <h3 className={styles.introHead}>{questionData.title}</h3>
             <p className={styles.introPara}>{questionData.detail}</p>
             <button
-              onClick={() => handleAnswerSelection(answers[currentQuestion], questionData.nextQuestion)}
+              onClick={() => handleAnswerSelection(answers[getTruncatedKey(englishq[currentQuestion].question)], questionData.nextQuestion)}
               className={styles.startBtn}
             >
               Start
@@ -165,7 +190,7 @@ const MultiPageForm = ({ language }) => {
             <p className={styles.question}>Q. {questionData.question}</p>
             <input
               type="text"
-              value={answers[currentQuestion] || ''}
+              value={answers[getTruncatedKey(englishq[currentQuestion].question)] || ''}
               onChange={handleInputChange}
               className={styles.textInpt}
             />
@@ -174,7 +199,7 @@ const MultiPageForm = ({ language }) => {
                 Back
               </button>
               <button
-                onClick={() => handleAnswerSelection(answers[currentQuestion], questionData.nextQuestion)}
+                onClick={() => handleAnswerSelection(answers[getTruncatedKey(englishq[currentQuestion].question)], questionData.nextQuestion)}
                 className={styles.nextBtn}
               >
                 Next
@@ -193,16 +218,17 @@ const MultiPageForm = ({ language }) => {
                   className={styles.checkbox}
                   value={option.answer}
                   onChange={(e) => {
-                    const selectedAnswers = answers[currentQuestion] || [];
+                    const questionKey = getTruncatedKey(englishq[currentQuestion].question);
+                    const selectedAnswers = answers[questionKey] || [];
                     if (e.target.checked) {
                       setAnswers((prevAnswers) => ({
                         ...prevAnswers,
-                        [currentQuestion]: [...selectedAnswers, option.answer],
+                        [questionKey]: [...selectedAnswers, option.answer],
                       }));
                     } else {
                       setAnswers((prevAnswers) => ({
                         ...prevAnswers,
-                        [currentQuestion]: selectedAnswers.filter((a) => a !== option.answer),
+                        [questionKey]: selectedAnswers.filter((a) => a !== option.answer),
                       }));
                     }
                   }}
@@ -215,7 +241,7 @@ const MultiPageForm = ({ language }) => {
                 Back
               </button>
               <button
-                onClick={() => handleAnswerSelection(answers[currentQuestion], questionData.nextQuestion)}
+                onClick={() => handleAnswerSelection(answers[getTruncatedKey(englishq[currentQuestion].question)], questionData.nextQuestion)}
                 className={styles.nextBtn}
               >
                 Next
@@ -293,7 +319,7 @@ const MultiPageForm = ({ language }) => {
                           type="radio"
                           name={`row-${rowIndex}`}
                           value={column.value}
-                          checked={answers[currentQuestion]?.[rowIndex] === column.value}
+                          checked={answers[getTruncatedKey(englishq[currentQuestion].question)]?.[rowIndex] === column.value}
                           onChange={() => handleMatrixInputChange(rowIndex, column.value)}
                           className={styles.radio}
                         />
@@ -308,7 +334,7 @@ const MultiPageForm = ({ language }) => {
                 Back
               </button>
               <button
-                onClick={() => handleAnswerSelection(answers[currentQuestion], questionData.nextQuestion)}
+                onClick={() => handleAnswerSelection(answers[getTruncatedKey(englishq[currentQuestion].question)], questionData.nextQuestion)}
                 className={styles.nextBtn}
               >
                 Next

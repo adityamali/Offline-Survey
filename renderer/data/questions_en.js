@@ -95,11 +95,11 @@ const english = (multiselectRandomOpt) => ({
 
     // mcq question
     1: {
-      question: "Greetings. My name is ________. On behalf of the Company XXX, we are conducting a short survey among visitors and residents of Place YYY. The survey will take about 12-110 minutes to complete and will help us to serve you better. Would you be willing to participate?",
+      question: "Greetings. Would you be willing to participate?",
       type:"mcq",
       options: [
         { answer: "Yes", nextQuestion: 2 },
-        { answer: "No", nextQuestion: 54 },
+        { answer: "No", nextQuestion: 49 },
       ]
     },
 
@@ -109,9 +109,9 @@ const english = (multiselectRandomOpt) => ({
       type:"mcq",
       options : [
         { answer: "Place 1", nextQuestion: 5 },
-        { answer: "Place 2", nextQuestion: 2 },
-        { answer: "Place 3", nextQuestion: 2 },
-        { answer: "Place 4", nextQuestion: 2 },
+        { answer: "Place 2", nextQuestion: 3 },
+        { answer: "Place 3", nextQuestion: 3 },
+        { answer: "Place 4", nextQuestion: 3 },
         { answer: "Place 5", nextQuestion: 4 },
       ],
     },
@@ -182,50 +182,68 @@ const english = (multiselectRandomOpt) => ({
       question: "Are you a local or a visitor?",
       type:"mcq",
       options : [
-        { answer: "Local", nextQuestion: 10 },
+        { answer: "Local", nextQuestion: 9 },
         { answer: "Visitor", nextQuestion: 10 },
       ],
     },
     //rating
 
     9: {
+      question: "Which district in Place YYY county do you live in?",
+      type:"mcq",
+      options:[
+        { answer: "District 1", nextQuestion: 10},
+        { answer: "District 2", nextQuestion: 10},
+        { answer: "District 3", nextQuestion: 10},
+        { answer: "District 4", nextQuestion: 10},
+        { answer: "District 5", nextQuestion: 10},
+        { answer: "District 6", nextQuestion: 10},
+        { answer: "District 7", nextQuestion: 10},
+        { answer: "District 8", nextQuestion: 10},
+        { answer: "District 9", nextQuestion: 10},
+        { answer: "District 10", nextQuestion: 10}
+      ],
+    },
+    //mcq
+
+    10: {
       question: "How likely are you to recommend Place YYY to a friend, family member, or colleague? You can choose any number between 0 and 10, where 0 is not likely at all and 10 is extremely likely.",
       type: "rating",
       options : [
-        { answer: 0, nextQuestion: 12 },
-        { answer: 1, nextQuestion: 12 },
-        { answer: 2, nextQuestion: 12 },
-        { answer: 3, nextQuestion: 12 },
-        { answer: 4, nextQuestion: 12 },
-        { answer: 5, nextQuestion: 12 },
-        { answer: 6, nextQuestion: 12 },
-        { answer: 7, nextQuestion: 12 },
-        { answer: 8, nextQuestion: 12 },
-        { answer: 9, nextQuestion: 12 },
-        { answer: 10, nextQuestion: 12 },
+        { answer: 0, nextQuestion: 11 },
+        { answer: 1, nextQuestion: 11 },
+        { answer: 2, nextQuestion: 11 },
+        { answer: 3, nextQuestion: 11 },
+        { answer: 4, nextQuestion: 11 },
+        { answer: 5, nextQuestion: 11 },
+        { answer: 6, nextQuestion: 11 },
+        { answer: 7, nextQuestion: 11 },
+        { answer: 8, nextQuestion: 11 },
+        { answer: 9, nextQuestion: 11 },
+        { answer: 10, nextQuestion: 11 },
       ],
     },
     
     // mcq
-    10: {
+    11: {
       question: "What is/was the purpose of your visit to Place YYY?",
       type:"mcq",
       options : [
-        { answer: "Business", nextQuestion: 11 },
-        { answer: "Leisure", nextQuestion: 11 },
-        { answer: "Visiting friends/family", nextQuestion: 11 },
-        { answer: "Other", nextQuestion: 10.1 },
+        { answer: "Business", nextQuestion: 12 },
+        { answer: "Leisure", nextQuestion: 12 },
+        { answer: "Visiting friends/family", nextQuestion: 12 },
+        { answer: "Other", nextQuestion: 11.1 },
       ],
     },
 
     //text
-    10.1: {
+    11.1: {
       question: "Please specify",
       type: "text",
       nextQuestion: 11,
     },
 
-    11: {
+    12: {
       question: "Which of the following reasons or experiences motivated you to visit Place YYY? Please rank up to 3 reasons, starting with the most important.",
       type: "multi-select",
       options: [
@@ -242,7 +260,7 @@ const english = (multiselectRandomOpt) => ({
     },
 
     // mcq
-    12: {
+    13: {
       question: "What mode of transport did you use to get to Place YYY?",
       type:"mcq",
       options : [
@@ -251,6 +269,66 @@ const english = (multiselectRandomOpt) => ({
         { answer: "Both road & air transport", nextQuestion: 13 },
         { answer: "Both cruise & road transport", nextQuestion: 13 },
         { answer: "Both cruise & air transport", nextQuestion: 13 },
+      ],
+    },
+
+    49: {
+      question: "How would you rate heritage tour 1?",
+      type:"rating",
+      options : [
+        { answer: 1, nextQuestion: 50 },
+        { answer: 2, nextQuestion: 50 },
+        { answer: 3, nextQuestion: 50 },
+        { answer: 4, nextQuestion: 50 },
+        { answer: 5, nextQuestion: 50 },
+      ],
+    },
+
+    50: {
+      question: "How would you rate heritage tour 2?",
+      type:"rating",
+      options : [
+        { answer: 1, nextQuestion: 51 },
+        { answer: 2, nextQuestion: 51 },
+        { answer: 3, nextQuestion: 51 },
+        { answer: 4, nextQuestion: 51 },
+        { answer: 5, nextQuestion: 51 },
+      ],
+    },
+
+    51: {
+      question: "How would you rate heritage tour 3?",
+      type:"rating",
+      options : [
+        { answer: 1, nextQuestion: 52 },
+        { answer: 2, nextQuestion: 52 },
+        { answer: 3, nextQuestion: 52 },
+        { answer: 4, nextQuestion: 52 },
+        { answer: 5, nextQuestion: 52 },
+      ],
+    },
+
+    52: {
+      question: "How would you rate heritage tour 4?",
+      type:"rating",
+      options : [
+        { answer: 1, nextQuestion: 53 },
+        { answer: 2, nextQuestion: 53 },
+        { answer: 3, nextQuestion: 53 },
+        { answer: 4, nextQuestion: 53 },
+        { answer: 5, nextQuestion: 53 },
+      ],
+    },
+    // rating
+    53: {
+      question: "How would you rate heritage tour 5?",
+      type:"rating",
+      options : [
+        { answer: 1, nextQuestion: 54 },
+        { answer: 2, nextQuestion: 54 },
+        { answer: 3, nextQuestion: 54 },
+        { answer: 4, nextQuestion: 54 },
+        { answer: 5, nextQuestion: 54 },
       ],
     },
 
@@ -268,7 +346,7 @@ const english = (multiselectRandomOpt) => ({
     },
       //rating
       56:{
-        question:`How likely are you to recommend ${multiselectRandomOpt} to a friend, family member, or colleague? You can choose any number between 0 and 10, where 0 is not likely at all and 10 is extremely likely.`, 
+        question:"How likely are you to recommend ${multiselectRandomOpt} to a friend, family member, or colleague? You can choose any number between 0 and 10, where 0 is not likely at all and 10 is extremely likely.", 
         type: "rating",
         options : [
           { answer: 0, nextQuestion: 1000 },

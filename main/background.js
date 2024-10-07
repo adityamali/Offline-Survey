@@ -99,17 +99,58 @@ ipcMain.handle('retry-pending-data', async () => {
   return null;
 });
 
+// Fetch pending data to show in the front end
+ipcMain.handle('fetch-pending-data', async () => {
+  const pendingData = store.get('pendingData') || [];
+  return pendingData;
+});
+
 // Periodically check for internet availability and retry sending pending data
 function startPeriodicCheck() {
   setInterval(async () => {
     if (navigatorOnLine()) {
       console.log('Internet is available. Checking for pending data...');
       await retryPendingData(); // Retry sending any pending data
+      await checkAndFetchLowestRatedTour(); // Fetch the lowest rated tour if conditions are met
     } else {
       console.log('No internet connection. Will try again later.');
     }
   }, 5000); // Check every 5 seconds (you can adjust this interval)
 }
+
+let lastUpdateTime = 0;
+let lowestRatedTour = null;
+
+async function checkAndFetchLowestRatedTour() {
+  const currentTime = Date.now();
+  if (navigatorOnLine() && (currentTime - lastUpdateTime > 3600000)) { // 1 hour in milliseconds
+    console.log('Fetching lowest rated tour from Supabase...');
+    lowestRatedTour = await fetchLowestRatedTour();
+    lastUpdateTime = currentTime;
+  }
+}
+
+async function fetchLowestRatedTourCall() { 
+  lowestRatedTour = await fetchLowestRatedTour();
+}
+
+async function fetchLowestRatedTour() {
+  const { data, error } = await supabase.rpc('get_lowest_rated_tour');
+  console.log("Data:", data);
+
+  if (error) {
+    console.error('Error fetching lowest rated tour:', error);
+    return null;
+  }
+
+  return data[0];
+}
+
+ipcMain.handle('get-lowest-rated-tour', async () => {
+  return lowestRatedTour;
+});
+
+app.whenReady().then(fetchLowestRatedTourCall);
 
 // Function to retry sending pending data
 async function retryPendingData() {
@@ -131,3 +172,11 @@ async function retryPendingData() {
     console.log('No pending data to send.');
   }
 }
+
+function clearStore() {
+  store.clear();
+  console.log('Electron Store has been cleared.');
+}
+
+// Example usage: Clear the store when the app is ready
+app.whenReady().then(clearStore);
